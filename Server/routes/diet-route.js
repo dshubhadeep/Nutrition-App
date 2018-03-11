@@ -105,9 +105,17 @@ router.post("/sendImage", urlEncoded, (req, result) => {
 			console.log(err);
 		} else {
 			console.log("Fields - ", files.Image);
-			result.send("Hello")
+			result.send("Hello");
 		}
 	});
+});
+
+const Disease = require("../models/disease-model");
+
+router.post("/addMeal", urlEncoded, (req, res) => {
+	const data = JSON.parse(req.body.intake);
+	console.log(data);
+	res.json(data)
 });
 
 module.exports = router;
