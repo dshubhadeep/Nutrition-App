@@ -113,7 +113,6 @@ router.post("/sendImage", urlEncoded, (req, result) => {
 const Disease = require("../models/disease-model");
 
 router.post("/addMeal", urlEncoded, (req, res) => {
-	const data = JSON.parse(req.body.intake);
 	console.log(data);
 	res.json(data)
 });
