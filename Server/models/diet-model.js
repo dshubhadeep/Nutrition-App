@@ -1,11 +1,12 @@
-const mongoose = require('mongoose')
-const Schema = mongoose.Schema
+const mongoose = require("mongoose");
+const Schema = mongoose.Schema;
 
 const DietSchema = new Schema({
-    nutrients: {
-        protein: Number,
-        carbs: Number,
-        fat: Number,
-    },
-    date: Date.now()
-})
+	nutrients: {
+		PROTEIN: Number,
+		CARBS: Number,
+		FAT: Number,
+		FIBER: Number
+	},
+	date: Date.now()
+});

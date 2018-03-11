@@ -15,8 +15,11 @@
 		"bcryptjs": "^2.4.3",
 		"body-parser": "^1.18.2",
 		"dotenv": "^5.0.1",
+		"ejs": "^2.5.7",
 		"express": "^4.16.2",
 		"formidable": "^1.2.0",
-		"mongoose": "^5.0.9"
+		"mongoose": "^5.0.9",
+		"vcap_services": "^0.3.4",
+		"watson-developer-cloud": "^3.0.7"
 	}
 }

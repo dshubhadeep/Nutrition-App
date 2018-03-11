@@ -1,6 +1,11 @@
 const router = require("express").Router();
 const axios = require("axios");
 const urlEncoded = require("body-parser").urlencoded({ extended: false });
+const watson = require("watson-developer-cloud");
+const fs = require("fs");
+const formidable = require("formidable");
+const vcapServices = require("vcap_services");
+const credentials = vcapServices.getCredentials("watson_vision_combined");
 
 router.get("/search/:id", (req, res) => {
 	let query = req.params.id;
@@ -12,9 +17,9 @@ router.get("/search/:id", (req, res) => {
 	console.log(url);
 	axios.get(url).then(response => {
 		let hints = response.data.hints;
-        let data = hints.filter(item => {
-            const pattern = /Food_[EWG|INR]/
-            const tester = pattern.test(item.food.uri)
+		let data = hints.filter(item => {
+			const pattern = /Food_[EWG|INR]/;
+			const tester = pattern.test(item.food.uri);
 			return item.food.label.toLowerCase().includes(query) && !tester;
 		});
 		let suggestions = data.map(item => {
@@ -83,6 +88,25 @@ router.post("/nutrient/", urlEncoded, (req, res) => {
 				nutrients: nutrients
 			}
 		});
+	});
+});
+
+router.post("/sendImage", urlEncoded, (req, result) => {
+	const visual_recognition = watson.visual_recognition({
+		api_key: process.env.WATSON_API_KEY,
+		version: "v3",
+		version_date: "2016-05-20"
+	});
+
+	const form = new formidable.IncomingForm();
+	form.keepExtensions = true;
+	form.parse(req, function(err, fields, files) {
+		if (err) {
+			console.log(err);
+		} else {
+			console.log(fields, files);
+			result.send("Hello")
+		}
 	});
 });
 
