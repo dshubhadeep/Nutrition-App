@@ -1,22 +1,22 @@
 {
-  "name": "server",
-  "version": "1.0.0",
-  "description": "C2C Hack API",
-  "main": "app.js",
-  "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "node app"
-  },
-  "author": "",
-  "license": "MIT",
-  "dependencies": {
-    "axios": "^0.18.0",
-    "bcrypt": "^1.0.3",
-    "bcryptjs": "^2.4.3",
-    "body-parser": "^1.18.2",
-    "dotenv": "^5.0.1",
-    "express": "^4.16.2",
-    "formidable": "^1.2.0",
-    "mongoose": "^5.0.9"
-  }
+	"name": "server",
+	"version": "1.0.0",
+	"description": "C2C Hack API",
+	"main": "app.js",
+	"scripts": {
+		"test": "echo \"Error: no test specified\" && exit 1",
+		"start": "node ./bin/www"
+	},
+	"author": "",
+	"license": "MIT",
+	"dependencies": {
+		"axios": "^0.18.0",
+		"bcrypt": "^1.0.3",
+		"bcryptjs": "^2.4.3",
+		"body-parser": "^1.18.2",
+		"dotenv": "^5.0.1",
+		"express": "^4.16.2",
+		"formidable": "^1.2.0",
+		"mongoose": "^5.0.9"
+	}
 }
