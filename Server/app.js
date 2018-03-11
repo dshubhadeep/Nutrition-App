@@ -88,6 +88,10 @@ app.get("/:id", (req, res) => {
 		});
 });
 
+app.post('/sendImage', urlEncoded, (req, res) => {
+	console.log(req.body);
+})
+
 app.listen(8000, () => {
 	console.log("port 3000");
 });
