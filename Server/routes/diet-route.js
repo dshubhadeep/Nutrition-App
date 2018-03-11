@@ -97,14 +97,14 @@ router.post("/sendImage", urlEncoded, (req, result) => {
 		version: "v3",
 		version_date: "2016-05-20"
 	});
-
+	console.log("Body", req.body);
 	const form = new formidable.IncomingForm();
 	form.keepExtensions = true;
 	form.parse(req, function(err, fields, files) {
 		if (err) {
 			console.log(err);
 		} else {
-			console.log(fields, files);
+			console.log("Fields - ", files.Image);
 			result.send("Hello")
 		}
 	});
