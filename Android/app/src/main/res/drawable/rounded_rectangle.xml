@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+
+<shape android:shape="rectangle" xmlns:android="http://schemas.android.com/apk/res/android">
+<corners android:radius="24dp"/>
+    <gradient android:startColor="@color/colorPrimary"
+        android:endColor="@color/colorAccent"
+        android:angle="45"/>
+</shape>
+-->
+<layer-list xmlns:android="http://schemas.android.com/apk/res/android">
+    <item>
+        <ripple xmlns:android="http://schemas.android.com/apk/res/android"
+            android:color="@android:color/holo_purple">
+            <item>
+                <shape android:shape="rectangle">
+                    <corners android:radius="24dp"/>
+                    <gradient android:startColor="@color/colorPrimary"
+                        android:endColor="@color/colorAccent"
+                        android:angle="45"/>
+                </shape>
+            </item>
+        </ripple>
+    </item>
+
+</layer-list>
+<!--initial radius 24dp-->
