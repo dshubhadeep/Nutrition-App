@@ -188,12 +188,11 @@ router.post("/addMeal", urlEncoded, (req, res) => {
 });
 
 router.get("/plot", (req, res) => {
-	User.findOne({ userName: "smith123" })
-		.populate("diet", "nutrients")
+	User.findOne({ userName: "dshubhadeep" })
+		.populate("day", "nutrients")
 		.exec()
 		.then(result => {
-			res.json(result.diet);
-			console.log(result.diet.length);
+			res.json(result.day);
 		});
 });
 
