@@ -8,5 +8,10 @@ const DietSchema = new Schema({
 		FAT: Number,
 		FIBER: Number
 	},
-	date: Date.now()
+	date: {
+		default: Date.now(),
+		type: Date
+	}
 });
+
+module.exports = mongoose.model("diet", DietSchema);

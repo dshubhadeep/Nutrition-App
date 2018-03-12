@@ -7,6 +7,10 @@ const formidable = require("formidable");
 const vcapServices = require("vcap_services");
 const credentials = vcapServices.getCredentials("watson_vision_combined");
 
+const User = require("../models/user-model");
+const Diet = require("../models/diet-model");
+const Day = require("../models/day-model");
+
 router.get("/search/:id", (req, res) => {
 	let query = req.params.id;
 	query = query.replace(/ /g, "%20");
@@ -110,12 +114,87 @@ router.post("/sendImage", urlEncoded, (req, result) => {
 	});
 });
 
-const Disease = require("../models/disease-model");
-
 router.post("/addMeal", urlEncoded, (req, res) => {
-	const data = req.body.intake;
-	console.log(req.body.intake);
-	res.send(data)
+	const data = JSON.parse(req.body.intake);
+
+	User.findOne({ userName: data.usr })
+		.populate("diet", "nutrients")
+		.then(response => {
+			const totalCal = parseInt(data.cals);
+			const nutrients = {
+				PROTEIN: parseFloat(data.proteins.toFixed(1)),
+				CARBS: parseFloat(data.carbs.toFixed(1)),
+				FAT: parseFloat(data.fats.toFixed(1)),
+				FIBER: parseFloat(data.fiber.toFixed(1))
+			};
+			let diet = new Diet({
+				nutrients: nutrients
+			});
+			diet.save().then(saved => {
+				const id = saved._id;
+
+				User.findOneAndUpdate(
+					{ userName: data.usr },
+					{ $push: { diet: id } }
+				).then(() => {
+					console.log("done");
+				});
+			});
+			return response.diet;
+		})
+		.then(totalMeals => {
+			// Check day
+			if (totalMeals.length % 3 === 0 && totalMeals.length != 0) {
+				const dayNumber = totalMeals.length / 3;
+				const endIndex = dayNumber * 3;
+				const startIndex = endIndex - 3;
+				console.log("Start", startIndex, "End", endIndex);
+				const mealsForOneDay = totalMeals.slice(startIndex, endIndex);
+				// res.send(mealsForOneDay);
+				nutrients = {
+					PROTEIN: 0,
+					CARBS: 0,
+					FAT: 0,
+					FIBER: 0
+				};
+				console.log(mealsForOneDay);
+				mealsForOneDay.forEach(meal => {
+					nutrients["FAT"] += meal.nutrients["FAT"];
+					nutrients["CARBS"] += meal.nutrients["CARBS"];
+					nutrients["PROTEIN"] += meal.nutrients["PROTEIN"];
+					nutrients["FIBER"] += meal.nutrients["FIBER"];
+				});
+
+				let day = new Day({
+					nutrients: nutrients,
+					dayNumber: dayNumber
+				});
+
+				day.save().then(saved => {
+					console.log("Day Saved");
+					const id = saved._id;
+					res.send(saved);
+					User.findOneAndUpdate(
+						{ userName: data.usr },
+						{ $push: { day: id } }
+					).then(() => {
+						console.log("done");
+					});
+				});
+			} else {
+				res.json({ msg: "Hello" });
+			}
+		});
+});
+
+router.get("/plot", (req, res) => {
+	User.findOne({ userName: "smith123" })
+		.populate("diet", "nutrients")
+		.exec()
+		.then(result => {
+			res.json(result.diet);
+			console.log(result.diet.length);
+		});
 });
 
 module.exports = router;

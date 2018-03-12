@@ -10,11 +10,18 @@ const userSchema = new Schema({
 	gender: String,
 	height: Number,
 	weight: Number,
-	BMI: Number
+	BMI: Number,
+	diet: [{
+		type: Schema.Types.ObjectId,
+		ref: 'diet'
+	}],
+	day: [{
+		type: Schema.Types.ObjectId,
+		ref: 'Day'
+	}]
 });
 
 userSchema.methods.comparePassword = function(enteredPwd) {
-	console.log(this);
 	return bcrypt.compareSync(enteredPwd, this.password);
 };
 

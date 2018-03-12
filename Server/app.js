@@ -40,7 +40,10 @@ app.post("/login", urlEncoded, (req, res) => {
 	User.findOne({ userName: req.body.userName }).then(user => {
 		console.log(user);
 		if (!user) {
-			res.send("user not found");
+			res.json({
+				success: false,
+				message: "User not found"
+			});
 		} else {
 			if (user.comparePassword(req.body.password)) {
 				res.json({
